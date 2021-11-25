@@ -1,0 +1,26 @@
+1. Load balancing refers to distributing incoming network traffic across multiple compute resources. How can DNS be used to load balance services? Give a concrete explanation for google.com
+DNS using a round-robin method to load balance. Their method is that DNS sends the list of IP addresses in a different order each time it responds to a new client. This means that different clients send their requests to different servers balancing the load across the server group.
+Console:
+jaeschwa@silo:~$ dig amazon.com +short
+176.32.103.205
+205.251.242.103
+54.239.28.85
+jaeschwa@silo:~$ dig amazon.com +short
+54.239.28.85
+176.32.103.205
+205.251.242.103
+Here as you can see, by looking up the IP address for amazon.com, it gives multiple different ones, that way DNS can round robin cycle through the IP address to try to balance the amount of users across the 3 IP addresses.
+
+2. DNS has been around since 1985 and the core protocol is still being used today. What is the inherent weakness of DNS (as of RFC1025; excluding DNSSEC)? Give an example of how an attacker might utilize it.
+One of the weakness of DNS is that it is very easy to spoof DNS responses and make it look like they are coming from legit DNS servers. This is because DNS performs very weak validation and accepts simultaneuous responses to their requests. This means attackers will have multiple guesses allowing them to brute force their way into being a legit DNS server. Attackers can use this to send back IP addresses to websites with viruses on them that a user could think were fine to download since they think they are on a safe website.
+
+3. Perform a manual iterative DNS query for mail-relay.iu.edu with dig starting from the root servers. List all commands and their outputs and explain why you issued every command. Do not use tracing features (dig +trace) for your final write-down.
+The first command I ran was “dig . NS” which gave me all the root name servers. Out of the name servers, I picked m.root-servers.net. Next I ran the command “dig @m.root-servers.net edu. NS” Which gave me all the name servers for edu. Going from the root server I picked. I from there picked a.edu-servers.net. The next command I ran was “dig @a.edu-servers.net iu.edu. NS” and this gave me all the NS for iu.edu. From that list I picked dns2.iu.edu. Then for my last command I ran “dig @dns2.iu.edu mail-relay.iu.edu A” which gave me all the IPv4 records it had which were 129.79.1.38 and 134.68.220.47. 
+
+4. You are sitting in a coffee shop and are connected to a public WLAN. You fire up wireshark and start sniffing the traffic of other customers. You notice that all of their traffic is over https so you cannot simply read it. You also notice something striking about the DNS traffic, what is it and what are the implications?
+Since all the websites they are visiting are encrypted with HTTPS, that means I can’t view what the website is or what they are doing. However, DNS traffic isn’t encrypted and is sent in plaintext. That means I can see what websites they were asking for the IP for. The implications of this means that I can still track and see what websites people are visiting, just not what they are doing on them.
+
+5. Suppose that IU has an internal DNS cache. You are an ordinary user (no network admin). Can you determine (and if yes, how) if a given external website was recently accessed?
+Yes you can see what websites have been accessed recently. Since if a website has been visited recently, it will be stored in the DNS cache. You can then go on your computer and go to the website you want to check if it has been recently accessed. Then you can check to see if your computer used a DNS query. Since it would only do this if when it accessed the DNS cache it couldn’t find the website in there. So if it didn’t use a DNS query that means it used the cache meaning the website has been visited recently.
+Another way but not as reliable would be to check the response times. Since with a DNS cache, the response times will be a lot faster if the website is saved in the DNS cache. Meaning if one website takes longer then a very common website like google, that means it hasn’t been visited recently.
+

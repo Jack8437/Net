@@ -1,0 +1,28 @@
+jaeschwa@silo:~$ telnet mail-relay.iu.edu 25
+Trying 129.79.1.38...
+Connected to mail-relay.iu.edu.
+Escape character is '^]'.
+220 Sendmail ESMTP - IU Campus Communications Team - Mail-Relay
+HELO 96.82.48.21
+250 mail-relay.iu.edu Hello silo.luddy.indiana.edu [129.79.247.195], pleased to meet you
+MAIL FROM:jaeschwa@iu.edu
+250 2.1.0 jaeschwa@iu.edu... Sender ok
+RCPT TO:sice-networks-l@list.indiana.edu
+250 2.1.5 sice-networks-l@list.indiana.edu... Recipient ok
+DATA
+354 Enter mail, end with "." on a line by itself
+Subject: Jack Schwartz Assignment 01 SMTP
+.
+250 2.0.0 18E0ZsF2024667 Message accepted for delivery
+QUIT
+221 2.0.0 mail-relay.iu.edu closing connection
+Connection closed by foreign host.
+jaeschwa@silo:~$
+
+What happens when you try to send to a non-IU email address? Why?
+When I try to send to a non-IU email address it tells me that I can’t do that since I don’t have proper authentication. This is because a non-IU email address is not on the IU network and it could lead to a security breach, so only certain people have the authentication to send emails to non-IU email addresses.
+
+What happens when you use a made-up from address? Why?
+When I put in a made up address it worked and allowed me to send the email to an IU address. For my case I sent the message test from JackSchwartz2001@iu.edu (a fake address) to my IU email and I got the email saying it was from Jackschwartz2001@iu.edu. 
+
+
